@@ -1,0 +1,255 @@
+{
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "env": {
+        "node": true
+    },
+    "plugins": [
+        "@typescript-eslint",
+        "deprecation",
+        "prettier",
+        "import",
+        "jsdoc",
+        "@stylistic"
+    ],
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:jsdoc/recommended-typescript"
+    ],
+    "parserOptions": {
+        "sourceType": "module",
+        "project": "./tsconfig.json"
+    },
+    "rules": {
+        "prettier/prettier": "warn",
+        "array-callback-return": ["error"],
+        "@typescript-eslint/no-unused-vars": [
+            "error",
+            {
+                "argsIgnorePattern": "^_",
+                "varsIgnorePattern": "^_",
+                "caughtErrorsIgnorePattern": "^_",
+                "args": "none"
+            }
+        ],
+        "no-warning-comments": [
+            "warn",
+            {
+                "terms": ["@todo"],
+                "location": "anywhere"
+            }
+        ],
+        "no-unused-vars": "off",
+        "@typescript-eslint/ban-ts-comment": "off",
+        "no-prototype-builtins": "off",
+        "@typescript-eslint/no-empty-function": "off",
+        "deprecation/deprecation": "warn",
+        "no-console": "error",
+        "max-len": [
+            "warn",
+            {
+                "code": 100,
+                "comments": 100,
+                "ignoreUrls": true
+            }
+        ],
+        "@typescript-eslint/naming-convention": [
+            "warn",
+            {
+                "selector": "classProperty",
+                "modifiers": ["private"],
+                "format": [],
+                "custom": {
+                    "regex": "^(_{1,2}I[A-Z][a-zA-Z0-9]*_?|_{1,2}[a-z][a-zA-Z0-9]*)$",
+                    "match": true
+                }
+            },
+            {
+                "selector": "classProperty",
+                "modifiers": ["private", "readonly"],
+                "format": [],
+                "custom": {
+                    "regex": "^(_{1,2}I[A-Z][a-zA-Z0-9]*_?|_{1,2}[a-z][a-zA-Z0-9]*|_{2}[a-zA-Z][a-zA-Z0-9]*)$",
+                    "match": true
+                }
+            },
+            {
+                "selector": "classProperty",
+                "modifiers": ["protected"],
+                "format": [],
+                "custom": {
+                    "regex": "^(_{1,2}I[A-Z][a-zA-Z0-9]*_?|_{1,2}[a-z][a-zA-Z0-9]*)$",
+                    "match": true
+                }
+            },
+            {
+                "selector": ["typeProperty", "classProperty"],
+                "types": ["boolean"],
+                "format": ["PascalCase"],
+                "prefix": ["is", "has", "can", "did", "will", "should"],
+                "leadingUnderscore": "allow"
+            },
+            {
+                "selector": "memberLike",
+                "modifiers": ["public"],
+                "format": ["camelCase"],
+                "leadingUnderscore": "forbid",
+                "filter": {
+                    "regex": "^(Events|Styles|Classes|Then|TextContent|El)$",
+                    "match": false
+                }
+            },
+            {
+                "selector": "typeProperty",
+                "modifiers": ["public"],
+                "format": null,
+                "filter": {
+                    "regex": ".*-event$",
+                    "match": true
+                },
+                "custom": {
+                    "regex": "^[a-z]+(-[a-z]+)*-event$",
+                    "match": true
+                }
+            },
+            {
+                "selector": "typeProperty",
+                "modifiers": ["public"],
+                "format": ["camelCase"],
+                "filter": {
+                    "regex": ".*-event$|^(Events|Styles|Classes|Then|TextContent|El)$",
+                    "match": false
+                }
+            }
+        ],
+        "@typescript-eslint/no-unused-expressions": "off",
+        "@stylistic/padding-line-between-statements": [
+            "warn",
+            {
+                "blankLine": "always",
+                "prev": "*",
+                "next": [
+                    "return",
+                    "if",
+                    "multiline-const",
+                    "function",
+                    "multiline-expression",
+                    "multiline-let",
+                    "block-like"
+                ]
+            },
+            {
+                "blankLine": "always",
+                "prev": ["function"],
+                "next": "*"
+            }
+        ],
+        "import/order": [
+            "warn",
+            {
+                "groups": [
+                    ["builtin", "external"],
+                    ["internal"],
+                    ["parent", "sibling"]
+                ],
+                "newlines-between": "never",
+                "alphabetize": {
+                    "order": "asc",
+                    "caseInsensitive": true
+                }
+            }
+        ],
+        "jsdoc/no-undefined-types": [
+            "warn",
+            {
+                "disableReporting": true,
+                "markVariablesAsUsed": true
+            }
+        ],
+        "jsdoc/require-jsdoc": [
+            "warn",
+            {
+                "require": {
+                    "FunctionDeclaration": true,
+                    "MethodDefinition": true,
+                    "ClassDeclaration": true,
+                    "ArrowFunctionExpression": false,
+                    "FunctionExpression": false
+                },
+                "minLineCount": 10
+            }
+        ],
+        "jsdoc/require-param": [
+            "warn",
+            {
+                "exemptedBy": ["deprecated", "inheritdoc"]
+            }
+        ],
+        "jsdoc/require-description": [
+            "warn",
+            {
+                "contexts": [
+                    "FunctionDeclaration",
+                    "MethodDefinition",
+                    "ClassDeclaration",
+                    "ClassExpression"
+                ],
+                "descriptionStyle": "body",
+                "exemptedBy": ["deprecated", "inheritdoc"]
+            }
+        ],
+        "jsdoc/require-returns": [
+            "warn",
+            {
+                "checkGetters": false,
+                "exemptedBy": ["deprecated", "inheritdoc"]
+            }
+        ],
+        "jsdoc/check-tag-names": [
+            "warn",
+            {
+                "definedTags": ["remarks", "jest-environment", "singleton"]
+            }
+        ],
+        "jsdoc/check-alignment": "warn",
+        "jsdoc/check-indentation": "warn",
+        "jsdoc/no-restricted-syntax": [
+            "error",
+            {
+                "contexts": [
+                    {
+                        "context": "MethodDefinition[kind='get']",
+                        "comment": "JsdocBlock:has(JsdocTag[tag='returns'])",
+                        "message": "JSDoc @returns comments are not allowed in getters."
+                    }
+                ]
+            }
+        ],
+        "@typescript-eslint/prefer-readonly": "warn",
+        "@typescript-eslint/explicit-function-return-type": [
+            "warn",
+            {
+                "allowExpressions": true,
+                "allowTypedFunctionExpressions": true,
+                "allowHigherOrderFunctions": true
+            }
+        ],
+        "@typescript-eslint/prefer-string-starts-ends-with": "warn",
+        "@typescript-eslint/no-misused-promises": "warn",
+        "@typescript-eslint/prefer-optional-chain": "warn"
+    },
+    "overrides": [
+        {
+            "files": ["*.test.ts", "*.spec.ts"],
+            "rules": {
+                "jsdoc/require-jsdoc": "off",
+                "jsdoc/require-param": "off",
+                "jsdoc/require-description": "off",
+                "jsdoc/require-returns": "off",
+                "@typescript-eslint/explicit-function-return-type": "off"
+            }
+        }
+    ]
+}
