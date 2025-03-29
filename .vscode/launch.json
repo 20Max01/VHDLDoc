@@ -13,7 +13,6 @@
           "${workspaceFolder}/src/index.ts"  // Oder deine Hauptdatei
         ],
         "cwd": "${workspaceFolder}",
-        "protocol": "inspector",
         "skipFiles": ["<node_internals>/**"],
         "env": {
           "TS_NODE_PROJECT": "${workspaceFolder}/tsconfig.json"
