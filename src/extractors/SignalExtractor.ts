@@ -9,6 +9,7 @@ import { IHDLSignalInfo } from '../elements/interfaces/IHDLSignal';
 export class SignalExtractor extends HDLElementExtractor<HDLSignal> {
     /**
      * Extract all signal declarations from the syntax tree.
+     * @returns An array of HDLSignal objects representing the extracted signals.
      */
     extract(): HDLSignal[] {
         this.extractComments();
