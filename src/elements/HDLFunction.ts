@@ -1,4 +1,5 @@
 import { HDLElement } from './HDLElement';
+import { IHDLParameter } from './interfaces/Common';
 import { IHDLFunctionInfo, IHDLFunction } from './interfaces/IHDLFunction';
 
 /**
@@ -13,6 +14,13 @@ export class HDLFunction
      */
     get parameters(): string {
         return this._info.parameters;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    get parameterList(): IHDLParameter[] {
+        return this._info.parameterList;
     }
 
     /**

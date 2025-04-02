@@ -1,17 +1,21 @@
 import Parser from 'web-tree-sitter';
 import { ICommentOptions } from './interfaces/ICommentOptions';
 import {
+    GetLeadingComment,
+    IHDLElementExtractor,
+    INodeExtractor,
+} from './interfaces/IHDLElementExtractor';
+import {
     IHDLElement,
     IHDLElementInfo,
 } from '../elements/interfaces/IHDLElement';
-
 /**
- * Abstract base class for all HDL element extractors.
+ * Base class for all HDL element extractors.
  * Collects and provides access to leading comments and implements recursive AST traversal.
  */
-export abstract class HDLElementExtractor<
-    T extends IHDLElement<IHDLElementInfo>,
-> {
+export class HDLElementExtractor<T extends IHDLElement<IHDLElementInfo>>
+    implements IHDLElementExtractor<T>
+{
     protected readonly _comments: Map<number, string> = new Map();
 
     constructor(
@@ -20,6 +24,8 @@ export abstract class HDLElementExtractor<
             markerPrefix: '@',
             stripPrefix: true,
         },
+
+        protected readonly nodeExtractor: INodeExtractor<T>,
     ) {}
 
     /**
@@ -60,7 +66,9 @@ export abstract class HDLElementExtractor<
      * @param line The line number to check for comments.
      * @returns The comment block as a string, or undefined if no comments are found.
      */
-    protected getLeadingComment(line: number): string | undefined {
+    private readonly getLeadingComment: GetLeadingComment = (
+        line: number,
+    ): string | undefined => {
         const lines: string[] = [];
         let currentLine = line - 1;
 
@@ -70,7 +78,7 @@ export abstract class HDLElementExtractor<
         }
 
         return lines.length > 0 ? lines.join('\n') : undefined;
-    }
+    };
 
     /**
      * Recursively find all nodes of a given type in the syntax tree.
@@ -84,6 +92,10 @@ export abstract class HDLElementExtractor<
     ): Parser.SyntaxNode[] {
         const result: Parser.SyntaxNode[] = [];
 
+        if (this.nodeExtractor.excludedParents?.includes(node.type)) {
+            return result;
+        }
+
         if (node.type === type) {
             result.push(node);
         }
@@ -96,7 +108,25 @@ export abstract class HDLElementExtractor<
     }
 
     /**
-     * The main extraction method to be implemented by subclasses.
+     * Extract all elements of the specified type from the syntax tree.
+     * Uses the provided handler function to process each node.
+     * @returns An array of extracted elements.
      */
-    abstract extract(): T[];
+    public extract(): T[] {
+        this.extractComments();
+        const result: T[] = [];
+
+        const nodes = this.findNodesByType(
+            this.root,
+            this.nodeExtractor.nodeType,
+        );
+
+        for (const node of nodes) {
+            result.push(
+                ...this.nodeExtractor.nodeHandler(node, this.getLeadingComment),
+            );
+        }
+
+        return result;
+    }
 }

@@ -1,3 +1,4 @@
+import { IHDLParameter } from './Common';
 import { IHDLElement, IHDLElementInfo } from './IHDLElement';
 
 /**
@@ -8,6 +9,11 @@ export interface IHDLProcedureInfo extends IHDLElementInfo {
      * Parameter list as string.
      */
     parameters: string;
+
+    /**
+     * Parameter list as structured array.
+     */
+    parameterList: IHDLParameter[];
 }
 
 /**
@@ -18,4 +24,9 @@ export interface IHDLProcedure extends IHDLElement<IHDLProcedureInfo> {
      * Get the parameter list of the procedure.
      */
     get parameters(): string;
+
+    /**
+     * Get the parameter list of the procedure as structured array.
+     */
+    get parameterList(): IHDLParameter[];
 }

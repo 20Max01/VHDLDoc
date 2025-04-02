@@ -22,6 +22,7 @@
       "experimentalDecorators": true,
       "emitDecoratorMetadata": true,
       "strict": true,
+      "strictFunctionTypes": false,
       "strictNullChecks": true,
       "strictPropertyInitialization": true,
       "forceConsistentCasingInFileNames": true,

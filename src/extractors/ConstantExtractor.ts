@@ -1,23 +1,23 @@
+/* eslint-disable max-len */
+/* eslint-disable no-console */
 import Parser from 'web-tree-sitter';
 import { Position } from '../elements/Common';
-import { HDLSignal } from '../elements/HDLSignal';
+import { HDLConstant } from '../elements/HDLConstant';
 import {
     GetLeadingComment,
     INodeExtractor,
     NodeHandler,
 } from './interfaces/IHDLElementExtractor';
-import { IHDLSignalInfo } from '../elements/interfaces/IHDLSignal';
+import { IHDLConstantInfo } from '../elements/interfaces/IHDLConstant';
 
 /**
- * SignalExtractor extracts signal declarations from a VHDL AST.
+ * ConstantExtractor extracts constant declarations from a VHDL AST.
  */
-export class SignalExtractor implements INodeExtractor<HDLSignal> {
+export class ConstantExtractor implements INodeExtractor<HDLConstant> {
     /**
      * @inheritdoc
      */
-    public get nodeType(): string {
-        return 'signal_declaration';
-    }
+    public readonly nodeType = 'constant_declaration';
 
     /**
      * @inheritdoc
@@ -31,11 +31,11 @@ export class SignalExtractor implements INodeExtractor<HDLSignal> {
     /**
      * @inheritdoc
      */
-    public readonly nodeHandler: NodeHandler<HDLSignal> = (
+    public readonly nodeHandler: NodeHandler<HDLConstant> = (
         node: Parser.SyntaxNode,
         getLeadingComment: GetLeadingComment,
-    ): HDLSignal[] => {
-        const result: HDLSignal[] = [];
+    ): HDLConstant[] => {
+        const result: HDLConstant[] = [];
 
         const nameNode = node.descendantsOfType('identifier_list')[0];
         const typeNode = node.descendantsOfType('subtype_indication')[0];
@@ -49,7 +49,7 @@ export class SignalExtractor implements INodeExtractor<HDLSignal> {
         for (const name of names) {
             const comment = getLeadingComment(pos.startLine);
 
-            const info: IHDLSignalInfo = {
+            const info: IHDLConstantInfo = {
                 name,
                 type,
                 defaultValue,
@@ -58,7 +58,7 @@ export class SignalExtractor implements INodeExtractor<HDLSignal> {
                 position: pos,
             };
 
-            result.push(new HDLSignal(info));
+            result.push(new HDLConstant(info));
         }
 
         return result;

@@ -50,3 +50,58 @@ export interface IPosition {
      */
     endColumn: number;
 }
+
+/**
+ * Interface for HDL parameters/ports/generics.
+ */
+export interface IHDLParameter {
+    /**
+     * The name of the parameter.
+     */
+    name: string;
+
+    /**
+     * The mode of the parameter.
+     * e.g., "in", "out", "inout"
+     */
+    mode?: string;
+
+    /**
+     * The type of the parameter.
+     * e.g., "std_logic", "integer", "real"
+     */
+    type: string;
+
+    /**
+     * Default value, if specified.
+     */
+    defaultValue?: string;
+
+    /**
+     * Optional comment describing the generic.
+     */
+    comment?: string;
+}
+
+export interface IVirtualBus {
+    /**
+     * The name of the virtual bus.
+     */
+    name: string;
+
+    /**
+     * The mode of the virtual bus.
+     * e.g., "in", "out", "inout"
+     */
+    mode?: string;
+
+    /**
+     * The signals of the virtual bus.
+     */
+    signals: IHDLParameter[];
+
+    /**
+     * Optional comment describing the virtual bus.
+     */
+    comment?: string;
+}

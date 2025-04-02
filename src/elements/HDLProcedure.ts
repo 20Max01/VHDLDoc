@@ -1,4 +1,5 @@
 import { HDLElement } from './HDLElement';
+import { IHDLParameter } from './interfaces/Common';
 import { IHDLProcedureInfo, IHDLProcedure } from './interfaces/IHDLProcedure';
 
 /**
@@ -13,5 +14,12 @@ export class HDLProcedure
      */
     get parameters(): string {
         return this._info.parameters;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    get parameterList(): IHDLParameter[] {
+        return this._info.parameterList;
     }
 }
